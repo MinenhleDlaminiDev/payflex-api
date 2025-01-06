@@ -4,6 +4,7 @@ import { Hono } from 'hono'
 const user = {
   id: 1,
   idNumber: "9502451455841",
+  phone: "+27820949315",
   fullname: "Minenhle Dlamini",
   email: "minenhledlamini@hiremepayflex.com",
   country: "South Africa",
