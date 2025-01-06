@@ -1,10 +1,11 @@
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
+import { cors } from 'hono/cors'
 
 const user = {
   id: 1,
   idNumber: "9502451455841",
-  phone: "+27820949315",
+  phone: "27820949315",
   fullname: "Minenhle Dlamini",
   email: "minenhledlamini@hiremepayflex.com",
   country: "South Africa",
@@ -116,6 +117,11 @@ const hobbies = [
 
 
 const app = new Hono()
+
+app.use('*', cors({
+  origin: 'http://localhost:4200'
+}))
+
 
 app.get('/profile', (c) => {
   return c.json({data:user})
