@@ -1,12 +1,15 @@
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
+import data from "./profile.json"
+import fs from "fs"
+import path from 'path';
 
 const user = {
   id: 1,
   idNumber: "9502451455841",
   phone: "27820949315",
-  fullname: "Minenhle Dlamini",
+  fullname: "Thulane Khumal",
   email: "minenhledlamini@hiremepayflex.com",
   country: "South Africa",
   hobbies: [],
@@ -119,16 +122,50 @@ const hobbies = [
 const app = new Hono()
 
 app.use('*', cors({
-  origin: 'http://localhost:4200'
+  origin: '*'
 }))
+
+const userFileWrite = (data: any) => {
+  const filePath = path.resolve('./src/profile.json');
+
+  console.log(data)
+  
+  // Convert the data object to a JSON string
+  const jsonData = JSON.stringify(data);
+  
+  // Write the JSON string to the file
+  // fs.writeFile(filePath, jsonData, (err) => {
+  //   if (err) {
+  //     console.error('Error writing to JSON file:', err);
+  //       return true
+  //   } else {const filePath = path.resolve('profile.txt');
+  //     console.log('JSON file has been saved successfully!');
+  //       return false
+  //   }
+  // });
+
+  fs.writeFileSync('./src/profile.json', jsonData, 'utf-8');
+  }
 
 
 app.get('/profile', (c) => {
-  return c.json({data:user})
+  return c.json({data})
 })
 
 app.get('/hobbies', (c) => {
   return c.json({data:hobbies})
+})
+
+app.put('/profile', (c) => {
+  userFileWrite(user)
+  // const body = c.req.json();
+  // console.log(body)
+
+  return c.json({
+    data:user,
+    success:true,
+    status: 200
+  })
 })
 
 const port = 3000
